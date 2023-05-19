@@ -3,7 +3,7 @@
 TARGET_BRANCH=${LABEL_NAME##*-}
 PR_BRANCH="auto-cherry-pick-$TARGET_BRANCH-$GITHUB_SHA"
 
-echo "REPO_NAME: $REPO_NAME"
+echo "REPOSITORY: $REPOSITORY"
 echo "PR Number: $PR_NUMBER"
 echo "Label: $LABEL_NAME"
 echo "GitHub SHA: $GITHUB_SHA"
@@ -18,17 +18,10 @@ git config --global user.name "$AUTHOR_NAME"
 
 git remote update
 git fetch --all
+git restore .
 git checkout -b $PR_BRANCH origin/$TARGET_BRANCH
 git cherry-pick $GITHUB_SHA
 git push origin $PR_BRANCH
 
-gh pr
-  -a $ASSIGNEES
-  -B $TARGET_BRANCH
-  -b "this a auto create pr!<br />cherry pick from https://github.com/$REPO_NAME/pull/$PR_NUMBER"
-  -H $PR_BRANCH
-  -l "cherry-pick"
-  -m $TARGET_BRANCH
-  -t "cherry-pick: $PR_NUMBER"
-
-# gh pr comment $PR_NUMBER --body "🤖 cherry pick finished successfully 🎉!<br/>See: https://github.com/$REPO_NAME/pull/1"
+gh pr create -B $TARGET_BRANCH -H $PR_BRANCH -t "cherry-pick: $PR_NUMBER" -b "this a auto create pr!<br />cherry pick from https://github.com/$REPOSITORY/pull/$PR_NUMBER" -a $ASSIGNEES
+gh pr comment $PR_NUMBER --body "🤖 cherry pick finished successfully 🎉!"
