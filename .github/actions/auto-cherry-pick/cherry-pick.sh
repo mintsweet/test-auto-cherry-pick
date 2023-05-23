@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TARGET_BRANCH=${LABEL_NAME##*-}
+TARGET_BRANCH="release-${LABEL_NAME##*-}"
 PR_BRANCH="auto-cherry-pick-$TARGET_BRANCH-$GITHUB_SHA"
 
 echo "==================== Basic Info ===================="
