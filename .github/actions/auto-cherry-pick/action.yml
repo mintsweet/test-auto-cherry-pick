@@ -21,7 +21,6 @@ runs:
       shell: bash
       env:
         GH_TOKEN: ${{ github.token }}
-        REPOSITORY: ${{ github.repository }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         PR_TITLE: ${{ github.event.pull_request.title }}
         PR_BODY: ${{ github.event.pull_request.body }}
