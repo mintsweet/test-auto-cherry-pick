@@ -15,6 +15,9 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Dump GitHub context
+      run: echo '${{ toJSON(github) }}'
+      shell: bash
     - run: chmod +x $GITHUB_ACTION_PATH/cherry-pick.sh
       shell: bash
     - run: $GITHUB_ACTION_PATH/cherry-pick.sh
