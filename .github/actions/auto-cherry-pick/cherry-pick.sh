@@ -26,7 +26,7 @@ git remote update
 git fetch --all
 git restore .
 git checkout -b $PR_BRANCH origin/$TARGET_BRANCH
-git cherry-pick $GITHUB_SHA || (
+git cherry-pick -m 1 --strategy=recursive --strategy-option=theirs $GITHUB_SHA || (
 	gh pr comment $PR_NUMBER --body "🤖 The current file has a conflict, and the pr cannot be automatically created."
 	gh pr edit $PR_NUMBER --add-label "cherry-pick-failed"
 	exit 1
@@ -34,6 +34,14 @@ git cherry-pick $GITHUB_SHA || (
 git push origin $PR_BRANCH
 
 echo "==================== GitHub Auto Create PR ===================="
-gh pr create -B $TARGET_BRANCH -H $PR_BRANCH -t "cherry-picked-from: #$PR_NUMBER $PR_TITLE" -b "this a auto create pr!<br />cherry pick from https://github.com/$REPOSITORY/pull/$PR_NUMBER<br />$PR_BODY" -a $ASSIGNEES
+AUTO_CREATED_PR=$(gh pr create \
+	-B $TARGET_BRANCH \
+	-H $PR_BRANCH \
+	-t "$PR_TITLE (cherry-picked-from #$PR_NUMBER)" \
+	-b "this a auto create pr!cherry picked from https://github.com/$REPOSITORY/pull/$PR_NUMBER/\n$PR_BODY" \
+	-a $ASSIGNEES)
+
+echo "Auto PR link is $AUTO_CREATED_PR"
+
 gh pr comment $PR_NUMBER --body "🤖 cherry pick finished successfully 🎉!"
 gh pr edit $PR_NUMBER --add-label "cherry-pick-completed"
