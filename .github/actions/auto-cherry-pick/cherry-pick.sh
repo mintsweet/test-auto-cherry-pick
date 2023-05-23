@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 TARGET_BRANCH="release-${LABEL_NAME##*-}"
 PR_BRANCH="auto-cherry-pick-$TARGET_BRANCH-$GITHUB_SHA"
 
@@ -16,11 +18,10 @@ echo "Assignees: $ASSIGNEES"
 echo "Target Branch: $TARGET_BRANCH"
 echo "PR Branch: $PR_BRANCH"
 
-echo "==================== Git Configuration ===================="
+echo "==================== Git Cherry Pick ===================="
 git config --global user.email "$AUTHOR_EMAIL"
 git config --global user.name "$AUTHOR_NAME"
 
-echo "==================== Git Cherry Pick ===================="
 git remote update
 git fetch --all
 git restore .
