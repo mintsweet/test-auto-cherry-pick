@@ -17,8 +17,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Cherry Pick
-        uses: ./.github/actions/auto-cherry-pick
-        with:
-          author_email: action_bot@users.noreply.devlake.com
-          author_name: action_bot
-          assignees: mintsweet
+        uses: .
