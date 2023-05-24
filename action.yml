@@ -9,9 +9,6 @@ inputs:
     description: "The author name"
     default: ${{ github.actor }}
     required: false
-  assignees:
-    description: "A comma or newline separated list of assignees (GitHub usernames)."
-    required: false
 runs:
   using: "composite"
   steps:

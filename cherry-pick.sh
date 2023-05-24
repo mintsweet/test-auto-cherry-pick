@@ -17,7 +17,6 @@ echo "Label: $LABEL_NAME"
 echo "GitHub SHA: $GITHUB_SHA"
 echo "Author Email: $AUTHOR_EMAIL"
 echo "Author Name: $AUTHOR_NAME"
-echo "Assignees: $ASSIGNEES"
 echo "Target Branch: $TARGET_BRANCH"
 echo "PR Branch: $PR_BRANCH"
 
@@ -44,8 +43,7 @@ AUTO_CREATED_PR_LINK=$(gh pr create \
 	-B $TARGET_BRANCH \
 	-H $PR_BRANCH \
 	-t "$PR_TITLE (cherry-picked-from #$PR_NUMBER)" \
-	-b "$PR_BODY" \
-	-a $ASSIGNEES)
+	-b "$PR_BODY")
 
 gh pr comment $PR_NUMBER --body "🤖 cherry pick finished successfully 🎉!"
 gh pr edit $PR_NUMBER --add-label $AUTO_CHERRY_PICK_COMPLETED_LABEL || (
