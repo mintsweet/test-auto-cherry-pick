@@ -1,1 +1,0 @@
-this is a file about release-v1.0.0
