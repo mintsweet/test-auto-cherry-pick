@@ -17,5 +17,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Auto Cherry Pick
-        uses: mintsweet/auto-cherry-pick@v1.0.0
+        uses: ./.github/actions/auto-cherry-pick
 
