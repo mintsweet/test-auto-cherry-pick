@@ -4,18 +4,13 @@ on:
   pull_request:
     types:
       - labeled
-      # - closed
+      - closed
 
 jobs:
-  cherry-pick:
-    # if: github.event.pull_request.merged == true && startsWith(github.event.label.name, 'needs-cherry-pick-')
-    if: startsWith(github.event.label.name, 'needs-cherry-pick-')
+  auto-cherry-pick:
+    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
       - uses: actions/checkout@v3
       - name: Auto Cherry Pick
-        uses: mintsweet/auto-cherry-pick@v1.0.0
-
+        uses: ./.github/actions/auto-cherry-pick
