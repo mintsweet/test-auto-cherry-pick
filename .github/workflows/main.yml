@@ -4,18 +4,39 @@ on:
   pull_request:
     types:
       - labeled
-      # - closed
+      - closed
 
 jobs:
-  cherry-pick:
-    # if: github.event.pull_request.merged == true && startsWith(github.event.label.name, 'needs-cherry-pick-')
-    if: startsWith(github.event.label.name, 'needs-cherry-pick-')
+  auto-cherry-pick:
+    # if: github.event.pull_request.merged == true || startsWith(github.event.label.name, 'needs-cherry-pick-')
+    # if: contains(github.event.pull_request.labels.*.name, 'needs-cherry-pick-v1.0.0')
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
+    # steps:
+    #   - name: Dump GitHub context
+    #     env:
+    #       GITHUB_CONTEXT: ${{ toJson(github) }}
+    #     run: echo "$GITHUB_CONTEXT"
+    #   - name: Dump job context
+    #     env:
+    #       JOB_CONTEXT: ${{ toJson(job) }}
+    #     run: echo "$JOB_CONTEXT"
+    #   - name: Dump steps context
+    #     env:
+    #       STEPS_CONTEXT: ${{ toJson(steps) }}
+    #     run: echo "$STEPS_CONTEXT"
+    #   - name: Dump runner context
+    #     env:
+    #       RUNNER_CONTEXT: ${{ toJson(runner) }}
+    #     run: echo "$RUNNER_CONTEXT"
+    #   - name: Dump strategy context
+    #     env:
+    #       STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+    #     run: echo "$STRATEGY_CONTEXT"
+    #   - name: Dump matrix context
+    #     env:
+    #       MATRIX_CONTEXT: ${{ toJson(matrix) }}
+    #     run: echo "$MATRIX_CONTEXT"
     steps:
       - uses: actions/checkout@v3
       - name: Auto Cherry Pick
         uses: ./.github/actions/auto-cherry-pick
-
